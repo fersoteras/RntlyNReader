@@ -1,0 +1,65 @@
+﻿@using NewsreaderWebApp.Models
+@model  MssgNavViewModels
+@Scripts.Render("~/bundles/mark")
+<div class="col-md-4">
+    <p></p>
+    <!-- Search form -->
+    <input class="form-control" type="text" placeholder="Search" aria-label="Search" style="padding-top:20">
+
+    <p></p>
+    <div class="MessageView">
+        @if (@Model.LastMessageViewed == 0)
+        {
+            <p> ---------------------</p>
+        }
+        else
+        {
+            <h2>@Model.Messages.First(mssg => mssg.FeedNewsArticleId == @Model.LastMessageViewed).Title </h2>
+            <p>
+                @Model.Messages.First(mssg => mssg.FeedNewsArticleId == @Model.LastMessageViewed).content
+            </p>
+        }
+    </div>
+
+
+
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+
+    //clean prevously made search marks from view content.
+    function ToggleSearchMarks() {
+        var options = {
+                   "accuracy": {
+                         "value": "exactly",
+                     "limiters": [",", "."]
+            }
+};
+        var instanceUnmark = new Mark(document.querySelector("div.MessageView"));
+        instanceUnmark.unmark(options);
+
+    };
+
+    $('.form-control').keyup(function (e) {
+        if (e.keyCode == 13) {
+            
+            // retrieve search term , if any...
+            // todo validation and input size check
+            var inputText = $(".form-control").val();
+
+            // unmark all from previous searches.
+            ToggleSearchMarks();
+
+            var instance = new Mark(document.querySelector("div.MessageView"));
+            instance.mark(inputText, {
+                "exclude": [
+                    "h1",
+                    ".byline *"
+                ]
+            });
+
+        }
+    });
+</script>
+

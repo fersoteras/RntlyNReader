@@ -1,0 +1,78 @@
+﻿@using NewsreaderWebApp.Models
+@model IEnumerable<FeedSelectionViewModel>
+@*  @helper ShowFeed(FeedSelectionViewModel item)    *@
+
+@functions
+{
+
+    public IList<FeedSelectionViewModel> SortAphabetically(IList<FeedSelectionViewModel> feeds)
+    {
+        var list = from s in feeds orderby s.FeedName select s;
+        return list.ToList();
+    }
+  
+  
+}
+
+
+@{
+    ViewBag.Title = "Feeds";
+}
+
+<h2>Feeds</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+<table class="table">
+    <tr>
+        <th>
+            Feed Name
+        </th>
+        <th>
+            Feed Selected
+        </th>
+        <th>
+
+        </th>
+
+
+    </tr>
+
+    @foreach (var item in SortAphabetically(Model.ToList()))
+
+    {
+
+        @*@Html.DisplayFor(modelItem => item, "InventoryList")*@
+        <tr>
+            <td>
+                @Html.DisplayFor(itemModel => item.FeedName)
+            </td>
+            <td>
+                @Html.CheckBoxFor(itemModel => item.FeedSelected)
+            </td>
+            <td>
+                @Html.HiddenFor(itemModel => item.FeedID)
+            </td>
+            <td>
+                @Html.HiddenFor(itemModel => item.FeedSelected)
+            </td>
+            <td>
+
+               
+                @Html.ActionLink("Details of Feed", "Details", new { @id = item.FeedID })
+            </td>
+
+
+        </tr>
+
+
+
+
+    }
+
+</table>
+
+

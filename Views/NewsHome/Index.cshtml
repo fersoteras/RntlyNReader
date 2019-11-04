@@ -1,0 +1,11 @@
+﻿@using NewsreaderWebApp.Models
+@model  MssgNavViewModels
+    <div class="row">
+        @section SPAViews {
+            @Html.Partial("_NewsHome", Model);
+        }
+        @section Scripts{
+            @Scripts.Render("~/bundles/mark")
+        }
+
+    
